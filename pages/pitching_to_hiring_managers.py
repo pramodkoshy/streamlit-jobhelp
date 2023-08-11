@@ -38,7 +38,7 @@ else:
       if submitted and st.session_state["openai_api_key"].startswith('sk-'):
         st.info("""Here is the response:""")
         try:
-            st.info(main.generate_response(input_text))
+            st.info(streamlit_app.generate_response(input_text))
         except:
             st.error ("Error occurred, it is most probably because you did not give the right OpenAI API Key")
         
