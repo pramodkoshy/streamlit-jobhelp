@@ -4,7 +4,7 @@ import numpy as np
 import sys
 
 
-import main
+import streamlit_app
 
 
 from langchain import PromptTemplate
