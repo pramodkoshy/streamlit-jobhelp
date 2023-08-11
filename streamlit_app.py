@@ -1,18 +1,32 @@
 import streamlit as st
 from langchain.llms import OpenAI
 
-st.title('🦜🔗 Quickstart App')
+st.title('🦜🔗 Job Search help App')
 
-openai_api_key = st.sidebar.text_input('OpenAI API Key')
+st.info("Please use the side bar Menu to choose what you would like to do ..., After entering the Open API Key.")
 
-def generate_response(input_text):
-  llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
-  st.info(llm(input_text))
+if "openai_api_key" not in st.session_state:
+    st.session_state["openai_api_key"] = ""
 
-with st.form('my_form'):
-  text = st.text_area('Enter text:', 'What are the three key pieces of advice for learning how to code?')
-  submitted = st.form_submit_button('Submit')
-  if not openai_api_key.startswith('sk-'):
-    st.warning('Please enter your OpenAI API key!', icon='⚠')
-  if submitted and openai_api_key.startswith('sk-'):
-    generate_response(text)
+
+# the below functions are to keep a copy of the state which gets erazed when the text widget gets cleaned up during a page change
+
+def keep(key):
+    # Copy from temporary widget key to permanent key
+    st.session_state[key] = st.session_state['_'+key]
+
+def unkeep(key):
+    # Copy from permanent key to temporary widget key
+    st.session_state['_'+key] = st.session_state[key]
+
+
+unkeep("openai_api_key")
+st.sidebar.text_input("OpenAI API Key", key="_openai_api_key", on_change=keep, args=["openai_api_key"])
+
+
+
+
+def generate_response(input_text):   
+  llm = OpenAI(temperature=0.7, openai_api_key = st.session_state["openai_api_key"])
+  return llm(input_text)
+
