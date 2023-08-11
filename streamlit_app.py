@@ -4,6 +4,7 @@ from langchain.llms import OpenAI
 st.title('🦜🔗 Job Search help App')
 
 st.info("Please use the side bar Menu to choose what you would like to do ..., After entering the Open API Key.")
+st.info("LINK to source code: https://github.com/pramodkoshy/streamlit-jobhelp.git")
 
 if "openai_api_key" not in st.session_state:
     st.session_state["openai_api_key"] = ""
